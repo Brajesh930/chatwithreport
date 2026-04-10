@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client IDs API Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .box { border: 1px solid #ccc; padding: 20px; margin: 10px 0; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        pre { background: #f0f0f0; padding: 15px; overflow-x: auto; border-radius: 4px; font-size: 12px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        h1 { color: #333; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Client IDs API Test</h1>
+        
+        <div class="box">
+            <h2>Endpoint: /api/admin/client-ids.php</h2>
+            <button onclick="testEndpoint()">▶ Test Endpoint</button>
+        </div>
+
+        <div class="box">
+            <h3>Raw Response:</h3>
+            <pre id="response">Click button to test...</pre>
+        </div>
+
+        <div class="box">
+            <h3>Parsed Data:</h3>
+            <pre id="parsed"></pre>
+        </div>
+
+        <div class="box">
+            <h3>Status:</h3>
+            <div id="status" style="font-size: 14px; line-height: 1.6;"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testEndpoint() {
+            const responseDiv = document.getElementById('response');
+            const parsedDiv = document.getElementById('parsed');
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                responseDiv.textContent = '⏳ Loading...';
+                parsedDiv.textContent = '';
+                statusDiv.textContent = 'Fetching from /api/admin/client-ids.php...';
+                
+                const response = await fetch('/api/admin/client-ids.php');
+                const text = await response.text();
+                
+                responseDiv.textContent = text;
+                
+                const json = JSON.parse(text);
+                parsedDiv.textContent = JSON.stringify(json, null, 2);
+                
+                if (json.success && json.data && json.data.client_ids) {
+                    const count = json.data.client_ids.length;
+                    let status = `<span class="success">✅ SUCCESS</span>: Found <strong>${count}</strong> client IDs\n\n`;
+                    
+                    json.data.client_ids.forEach((client, i) => {
+                        status += `${i+1}. <strong>ID:</strong> ${client.id}, <strong>Code:</strong> ${client.client_id_code}, <strong>Name:</strong> ${client.client_id_name}\n`;
+                    });
+                    
+                    statusDiv.innerHTML = status.replace(/\n/g, '<br>');
+                } else {
+                    statusDiv.innerHTML = '<span class="error">❌ ERROR</span>: Response format is incorrect or missing client_ids data';
+                }
+            } catch (error) {
+                responseDiv.textContent = '❌ Error: ' + error.message;
+                parsedDiv.textContent = error.toString();
+                statusDiv.innerHTML = `<span class="error">❌ FETCH ERROR:</span> ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

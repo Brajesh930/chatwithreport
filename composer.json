@@ -1,0 +1,19 @@
+{
+    "name": "document-chat-system/mvp",
+    "description": "Simple document chat system MVP",
+    "type": "project",
+    "require": {
+        "php": "^7.4",
+        "vlucas/phpdotenv": "^5.4",
+        "smalot/pdfparser": "^1.0",
+        "opendocumentformat/odf": "^1.0",
+        "phpoffice/phpword": "^0.18.2"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

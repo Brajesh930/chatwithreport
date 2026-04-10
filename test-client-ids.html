@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client IDs API Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .box { border: 1px solid #ccc; padding: 20px; margin: 10px 0; background: #f9f9f9; }
+        pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Client IDs API Test</h1>
+    
+    <div class="box">
+        <h2>Endpoint: /api/admin/client-ids.php</h2>
+        <button onclick="testEndpoint()">Test Endpoint</button>
+    </div>
+
+    <div class="box">
+        <h3>Raw Response:</h3>
+        <pre id="response">Click button to test...</pre>
+    </div>
+
+    <div class="box">
+        <h3>Parsed Data:</h3>
+        <div id="parsed" style="white-space: pre-wrap; font-family: monospace;"></div>
+    </div>
+
+    <script>
+        async function testEndpoint() {
+            const responseDiv = document.getElementById('response');
+            const parsedDiv = document.getElementById('parsed');
+            
+            try {
+                responseDiv.textContent = 'Loading...';
+                parsedDiv.textContent = 'Loading...';
+                
+                const response = await fetch('/api/admin/client-ids.php');
+                const text = await response.text();
+                
+                responseDiv.textContent = text;
+                
+                const json = JSON.parse(text);
+                parsedDiv.textContent = JSON.stringify(json, null, 2);
+                
+                if (json.success && json.data && json.data.client_ids) {
+                    const count = json.data.client_ids.length;
+                    parsedDiv.textContent += `\n\n✅ SUCCESS: Found ${count} client IDs`;
+                    json.data.client_ids.forEach((client, i) => {
+                        parsedDiv.textContent += `\n${i+1}. ID: ${client.id}, Code: ${client.client_id_code}, Name: ${client.client_id_name}`;
+                    });
+                } else {
+                    parsedDiv.textContent += '\n\n❌ ERROR: Response format is incorrect';
+                }
+            } catch (error) {
+                responseDiv.textContent = '❌ Error: ' + error.message;
+                parsedDiv.textContent = error.toString();
+            }
+        }
+    </script>
+</body>
+</html>

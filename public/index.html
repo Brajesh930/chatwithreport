@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Intelligence · LogicApt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <span class="top-bar-left">AI-Powered Document Intelligence</span>
+        <span class="top-bar-right">✉ abhay@logicapt.com &nbsp;|&nbsp; logicapt.com</span>
+    </div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-mark">Logic<span class="logo-accent">Apt</span></span>
+                <span class="logo-pipe">|</span>
+                <span class="logo-product">Document Intelligence</span>
+            </div>
+            <span class="header-tag">Powered by Gemini AI</span>
+        </div>
+        <div class="hero-block">
+            <p class="hero-eyebrow">INTELLIGENT DOCUMENT ANALYSIS</p>
+            <h1 class="hero-title">Upload. Analyze. <span class="accent-text">Ask.</span></h1>
+            <p class="hero-desc">Upload project documents and get instant, grounded AI answers — fast, accurate, and context-aware.</p>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <main class="main-content">
+
+            <!-- Step 1: Upload -->
+            <section class="card upload-section">
+                <div class="card-eyebrow">STEP 01</div>
+                <h2 class="card-heading">Upload Documents</h2>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept=".txt,.pdf,.docx,.md" multiple hidden>
+                    <div class="drop-text">
+                        <div class="drop-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <p>Drag &amp; drop files here or <span class="browse-link">browse files</span></p>
+                        <small>Supported: .txt &nbsp;·&nbsp; .pdf &nbsp;·&nbsp; .docx &nbsp;·&nbsp; .md &nbsp;|&nbsp; Max 10MB per file &nbsp;|&nbsp; Multiple files supported</small>
+                    </div>
+                    <div id="selectedFilesList" class="selected-files-list" style="display:none;"></div>
+                </div>
+                <div class="card-footer-row">
+                    <button class="btn btn-primary" id="uploadBtn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        Upload File
+                    </button>
+                </div>
+                <div id="uploadStatus" class="status-message"></div>
+            </section>
+
+            <!-- Document Info -->
+            <section class="card file-info-section">
+                <div class="card-eyebrow">DOCUMENT INFO</div>
+                <h2 class="card-heading">Uploaded Document</h2>
+                <div id="fileInfo" class="file-info">
+                    <p class="placeholder">No document uploaded yet.</p>
+                </div>
+                <div class="card-footer-row">
+                    <button class="btn btn-ghost" id="refreshFileInfoBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                        Refresh Info
+                    </button>
+                </div>
+            </section>
+
+            <!-- Parsed Content -->
+            <section class="card parsed-text-section" style="display:none;">
+                <div class="card-eyebrow">EXTRACTED CONTENT</div>
+                <h2 class="card-heading">Parsed Document Text</h2>
+                <div class="card-footer-row" style="margin-bottom:1rem;">
+                    <button class="btn btn-ghost" id="copyParsedBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy All Text
+                    </button>
+                </div>
+                <div id="parsedContent" class="parsed-content-box">
+                    <p class="placeholder">No parsed content available.</p>
+                </div>
+            </section>
+
+            <!-- Step 2: Chat -->
+            <section class="card chat-section">
+                <div class="card-eyebrow">STEP 02</div>
+                <h2 class="card-heading">Ask Questions</h2>
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="system-message">
+                            Upload a document first, then ask questions about it.
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <textarea
+                        id="questionInput"
+                        class="chat-input"
+                        placeholder="Ask a question about your document... (Ctrl+Enter to send)"
+                        rows="3"
+                        disabled
+                    ></textarea>
+                    <button class="btn btn-primary" id="sendBtn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        Send
+                    </button>
+                </div>
+                <div id="chatStatus" class="status-message"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo-mark">Logic<span class="logo-accent">Apt</span></span>
+                <p>AI + Human Intelligence = Extraordinary Results</p>
+            </div>
+            <div class="footer-meta">
+                <p>Document Intelligence System &nbsp;·&nbsp; © 2026 LogicApt</p>
+                <p>A-40A, Landmark Plaza, Phase VIII, Mohali, India</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

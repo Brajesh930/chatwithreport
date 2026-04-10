@@ -1,0 +1,7 @@
+2026-04-09 10:17:57,873 - DocumentChat - INFO - Starting Document Chat System - development environment
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://localhost:8000
+Press CTRL+C to quit
+^C

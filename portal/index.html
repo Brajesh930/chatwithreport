@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Chat Portal - Logicapt</title>
+    <script src="/portal/app.js" defer></script>
+    <link rel="stylesheet" href="/portal/style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="logo-mark">L</div>
+        <div class="loading-spinner"></div>
+        <p>Loading Portal...</p>
+    </div>
+
+    <!-- Role Selector -->
+    <div id="role-selector" class="role-selector hidden">
+        <div class="logo-container">
+            <div class="logo-mark-large">L</div>
+            <div class="logo-product">Document Intelligence Portal</div>
+        </div>
+        <h1>Select Your Role</h1>
+        <div class="role-buttons">
+            <button class="role-btn admin" data-role="admin">
+                <div class="role-icon">👑</div>
+                <div class="role-info">
+                    <h3>Admin</h3>
+                    <p>Manage employees, clients & projects</p>
+                </div>
+            </button>
+            <button class="role-btn employee" data-role="employee">
+                <div class="role-icon">💼</div>
+                <div class="role-info">
+                    <h3>Employee</h3>
+                    <p>Create projects & upload documents</p>
+                </div>
+            </button>
+            <button class="role-btn client" data-role="client">
+                <div class="role-icon">👥</div>
+                <div class="role-info">
+                    <h3>Client</h3>
+                    <p>Review projects & chat with documents</p>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="login-container hidden">
+        <div class="login-card">
+            <div class="logo-small">L</div>
+            <div class="current-role"></div>
+            <h2 id="login-title">Welcome Back</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary full">Sign In</button>
+                <div class="login-links">
+                    <a href="#" id="testModeLink">Use Test Mode</a>
+                </div>
+                <div id="login-error" class="error-message hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Shell -->
+    <div id="app-shell" class="app-shell hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">L</div>
+                <span class="app-name">Document Portal</span>
+            </div>
+            <nav class="sidebar-nav" id="sidebarNav"></nav>
+            <div class="sidebar-footer">
+                <div class="user-profile" id="userProfile">
+                    <img src="/portal/avatar.svg" alt="User" class="avatar">
+                    <div>
+                        <div class="user-name" id="userName"></div>
+                        <div class="user-role" id="userRole"></div>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn-ghost">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn-icon" id="settingsBtn" title="Settings">
+                        ⚙️
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div id="pageContent" class="page-content">
+                <!-- Dynamic content loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Theme</label>
+                    <select id="themeSelect">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal hidden">
+        <div class="modal-content error">
+            <div class="modal-header">
+                <h3>Error</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="errorMessage"></div>
+        </div>
+    </div>
+</body>
+</html>
+
